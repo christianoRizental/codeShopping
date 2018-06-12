@@ -17,6 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//fez um group para renomear a rota, para adicionar api na rota, e criou um alisa api.
 Route::group(['namespace' => 'Api', 'as' => 'api.'],  function(){
     Route::resource('categories', 'CategoryController', ['except' => ['create','edit']]);
+    Route::resource('products', 'ProductController', ['except' => ['create','edit']]);
 });
