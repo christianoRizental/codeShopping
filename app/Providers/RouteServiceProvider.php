@@ -3,6 +3,7 @@
 namespace CodeShopping\Providers;
 
 use CodeShopping\Models\Category;
+use CodeShopping\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -30,8 +31,16 @@ class RouteServiceProvider extends ServiceProvider
         
         Route::bind('category', function($value){
             //dd dump and die dd($value)
+            //esse tipo de consulta retorna uma coleção de objetos, uma estrutura do laravel chamda collection
             $collection = Category::whereId($value)->orwhere('slug', $value)->get();
             return $collection->first();
+        });
+        
+        Route::bind('product', function($value){
+            //dd dump and die dd($value)
+            //esse tipo de consulta retorna uma coleção de objetos, uma estrutura do laravel chamda collection
+            $collection = Product::whereId($value)->orwhere('slug', $value)->get();
+            return $collection->first(); // ou retorna null
         });
     }
 

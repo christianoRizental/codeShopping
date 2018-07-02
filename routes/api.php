@@ -21,4 +21,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['namespace' => 'Api', 'as' => 'api.'],  function(){
     Route::resource('categories', 'CategoryController', ['except' => ['create','edit']]);
     Route::resource('products', 'ProductController', ['except' => ['create','edit']]);
+    Route::resource('productInputs', 'ProductInputController', ['only' => ['index','store','destroy']]);
+    //resource nested - recusro filho
+    //POST products/1/categories inserindo categorias no produto 1
+    //PUT products/1/categories - adicionar e remover ao mesmo tempo, exclui as anteriores e grava as novas
+    //GET products/1/categories - quais as categorias estao relacionadas com o produto 1
+    //DELETE products/1/categories - removendo todas as cetegorias
+    //DELETE products/1/categories/10 - deletando a categoria 10 do produto 1
+    //Route::resource('products.categories');
+    Route::resource('products.categories', 'ProductCategoryController', ['only' => ['index','store','destroy']]);
+    Route::resource('categories.products', 'CategoryProductController', ['only' => ['index','store','destroy']]);
 });

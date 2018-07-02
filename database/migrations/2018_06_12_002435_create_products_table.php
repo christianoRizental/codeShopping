@@ -18,8 +18,9 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->text('description');
-            $table->decimal('price', 8, 2);
-            $table->integer('stock')->default(0);
+            //$table->decimal('price', 8, 2);
+            $table->decimal('price');
+            $table->integer('stock')->unsigned()->default(0);
             $table->boolean('active')->default(1);
             $table->timestamps();
         });
