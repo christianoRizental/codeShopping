@@ -12,3 +12,5 @@ class ProductInput extends Model
         return $this->belongsTo(Product::class);
     }
 }
+//select * from product_inputs
+//cada vez que eu acesso o relacionamento eu  vou gerar uma consulta no banco de dados para pegara as entradas

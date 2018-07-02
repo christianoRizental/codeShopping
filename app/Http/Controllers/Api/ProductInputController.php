@@ -12,38 +12,22 @@ class ProductInputController extends Controller
 {
     public function index()
     {
-        //
-    }
-
-    public function create()
-    {
-        //
+        //whit -> acessa menos o banco de dados
+        $inputs = ProductInput::whit('product')->paginate(); //eager loading/ carregamento prematuro
+        return ProductInputResource::collection($inputs);
     }
 
     public function store(ProductInputRequest $request)
     {
-        $productInput = ProductInput::create($request->all());
-        $productInput->refresh(); //atualiza as informações par mostrar todos os campos no retorno
-        return new ProductInputResource($productInput);
+        $input = ProductInput::create($request->all());
+        $product = $input->product;
+        $product->stock += $input->amount;
+        $product->save();
+        return new ProductInputResource($input);
     }
 
-    public function show(ProductInput $productInput)
+    public function show(ProductInput $input) //criamos o recurso como inputs então usar $input no singular
     {
-        //
-    }
-
-    public function edit(ProductInput $productInput)
-    {
-        //
-    }
-
-    public function update(Request $request, ProductInput $productInput)
-    {
-        //
-    }
-
-    public function destroy(ProductInput $productInput)
-    {
-        //
+        return new ProductInputResource($input);
     }
 }

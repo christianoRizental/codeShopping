@@ -20,12 +20,12 @@ class ProductController extends Controller
     {
         $product = Product::create($request->all());
         $product->refresh(); //atualiza as informações par mostrar todos os campos no retorno
-        return new ProductResource($products);
+        return new ProductResource($product);
     }
 
     public function show(Product $product)
     {
-        return new ProductResource($products);
+        return new ProductResource($product);
     }
 
     public function update(ProductRequest $request, Product $product)
