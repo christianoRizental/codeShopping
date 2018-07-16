@@ -22,6 +22,7 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'],  function(){
     Route::resource('categories', 'CategoryController', ['except' => ['create','edit']]);
     Route::resource('products', 'ProductController', ['except' => ['create','edit']]);
     Route::resource('inputs', 'ProductInputController', ['only' => ['index','store','show']]);
+    Route::resource('outputs', 'ProductOutputController', ['only' => ['index','store','show']]);
     //resource nested - recusro filho
     //POST products/1/categories inserindo categorias no produto 1
     //PUT products/1/categories - adicionar e remover ao mesmo tempo, exclui as anteriores e grava as novas
@@ -30,5 +31,6 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'],  function(){
     //DELETE products/1/categories/10 - deletando a categoria 10 do produto 1
     //Route::resource('products.categories');
     Route::resource('products.categories', 'ProductCategoryController', ['only' => ['index','store','destroy']]);
+    Route::resource('products.photos', 'ProductPhotoController', ['except' => ['create','edit']]);
     Route::resource('categories.products', 'CategoryProductController', ['only' => ['index','store','destroy']]);
 });
