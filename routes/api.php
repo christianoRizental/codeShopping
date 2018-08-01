@@ -19,10 +19,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //fez um group para renomear a rota, para adicionar api na rota, e criou um alisa api.
 Route::group(['namespace' => 'Api', 'as' => 'api.'],  function(){
-    Route::resource('categories', 'CategoryController', ['except' => ['create','edit']]);
+    //endpoints personalizados colocar acima dos resouces
+    Route::patch('products/{product}/restore', 'ProductController@restore');
+    
     Route::resource('products', 'ProductController', ['except' => ['create','edit']]);
-    Route::resource('inputs', 'ProductInputController', ['only' => ['index','store','show']]);
-    Route::resource('outputs', 'ProductOutputController', ['only' => ['index','store','show']]);
+    Route::resource('categories', 'CategoryController', ['except' => ['create','edit']]);
     //resource nested - recusro filho
     //POST products/1/categories inserindo categorias no produto 1
     //PUT products/1/categories - adicionar e remover ao mesmo tempo, exclui as anteriores e grava as novas
@@ -33,4 +34,7 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'],  function(){
     Route::resource('products.categories', 'ProductCategoryController', ['only' => ['index','store','destroy']]);
     Route::resource('products.photos', 'ProductPhotoController', ['except' => ['create','edit']]);
     Route::resource('categories.products', 'CategoryProductController', ['only' => ['index','store','destroy']]);
+    Route::resource('inputs', 'ProductInputController', ['only' => ['index','store','show']]);
+    Route::resource('outputs', 'ProductOutputController', ['only' => ['index','store','show']]);
+    Route::resource('users', 'UserController', ['except' => ['create','edit']]);
 });

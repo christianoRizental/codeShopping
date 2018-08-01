@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use Sluggable;
+    use Sluggable, SoftDeletes;
     
     protected $dates = ['deleted_at'];
     protected $fillable = ['name', 'description', 'price', 'active'];
