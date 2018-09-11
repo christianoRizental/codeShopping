@@ -28,8 +28,11 @@ export class LoginComponent implements OnInit {
   }
   
   submit(){
-      this.http.post('http://localhost:8000/api/login', this.credentials)
-      .subscribe((data) => console.log(data));
+      //generics - Java
+      this.http.post<any>('http://localhost:8000/api/login', this.credentials)
+      .subscribe((data) => {
+          const token = data.token;
+      });
       //enviar uma requisição ajax com as credenciais 
       return false;
   }
