@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'login',
@@ -9,14 +10,16 @@ import {HttpClient} from '@angular/common/http';
 export class LoginComponent implements OnInit {
 
   public credentials = {
-      email: '',
-      password: ''
-  }
+      email: 'admin@user.com',
+      password: 'secret'
+  };
   
   //simbolo [] - o TS reflete alterações no template - Dados ---> template
   //           - a programação irá alterar o template
   
-  constructor(private http: HttpClient) { //injeção de dependencia automatica
+  showMessageError = false;
+  
+  constructor(private http: HttpClient, private router: Router) { //injeção de dependencia automatica
   }
 
   ngOnInit() {
@@ -26,14 +29,19 @@ export class LoginComponent implements OnInit {
     }, 3000)
     */
   }
-  
   submit(){
       //generics - Java
       this.http.post<any>('http://localhost:8000/api/login', this.credentials)
-      .subscribe((data) => {
-          const token = data.token;
-      });
+          .subscribe((data) => {
+              //console.log(data);
+              const token = data.token;
+              window.localStorage.setItem('token',token);
+              this.router.navigate(['categories/list']);
+
+          }, () => this.showMessageError = true);
       //enviar uma requisição ajax com as credenciais 
       return false;
   }
 }
+
+//Typescript wrapper - superset - ES6 - ES7 ---> será convertido para ES5 - EcmaScript  2014
