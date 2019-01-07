@@ -5,8 +5,7 @@ import {AppComponent} from './app.component';
 import {LoginComponent} from './components/pages/login/login.component';
 import {CategoryListComponent} from './components/pages/category/category-list/category-list.component';
 import {FormsModule} from '@angular/forms';
-import {RouterModule, Routes} from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AlertErrorComponent} from './components/bootstrap/alert-error/alert-error.component';
 import { ModalComponent } from './components/bootstrap/modal/modal.component';
 import { CategoryNewModalComponent } from './components/pages/category/category-new-modal/category-new-modal.component';
@@ -24,29 +23,22 @@ import { UserDeleteModalComponent } from './components/pages/user/user-delete-mo
 import { UserEditModalComponent } from './components/pages/user/user-edit-modal/user-edit-modal.component';
 import { UserNewModalComponent } from './components/pages/user/user-new-modal/user-new-modal.component';
 import { ProductCategoryNewComponent } from './components/pages/product-category/product-category-new/product-category-new.component';
+import {JwtModule, JWT_OPTIONS} from '@auth0/angular-jwt';
+import {AuthService} from "./services/auth.service";
+import { NavbarComponent } from './components/bootstrap/navbar/navbar.component';
+import {RefreshTokenInterceptorService} from "./services/refresh-token-interceptor.service";
+import {AppRoutingModule} from "./app-routing.module";
 
-const routes: Routes = [
-    {
-        path: 'login', component: LoginComponent
-    },
-    {
-        path: 'categories/list', component: CategoryListComponent
-    },
-    {
-        path: 'products/:product/categories/list', component: ProductCategoryListComponent
-    },
-    {
-        path: 'products/list', component: ProductListComponent
-    },
-    {
-        path: 'users/list', component: UserListComponent
-    },
-    {
-        path: '', 
-        redirectTo: '/login',
-        pathMatch: 'full'
+function jwtFactory(authService: AuthService) {
+    return {
+        whitelistedDomains: [
+            new RegExp('localhost:8000/*')
+        ],
+        tokenGetter: () => {
+            return authService.getToken()
+        }
     }
-];
+}
 
 @NgModule({
   declarations: [
@@ -68,16 +60,30 @@ const routes: Routes = [
     UserDeleteModalComponent,
     UserEditModalComponent,
     UserNewModalComponent,
-    ProductCategoryNewComponent
+    ProductCategoryNewComponent,
+    NavbarComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    RouterModule.forRoot(routes, {enableTracing: true} ),
-      NgxPaginationModule
+      BrowserModule,
+      FormsModule,
+      HttpClientModule,
+      AppRoutingModule,
+      NgxPaginationModule,
+      JwtModule.forRoot({
+          jwtOptionsProvider: {
+              provide: JWT_OPTIONS,
+              useFactory: jwtFactory,
+              deps: [AuthService]
+          }
+      })
   ],
-  providers: [],
+  providers: [
+      {
+          provide: HTTP_INTERCEPTORS,
+          useClass: RefreshTokenInterceptorService,
+          multi: true
+      }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

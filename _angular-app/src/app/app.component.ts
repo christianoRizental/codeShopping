@@ -1,17 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import pace from 'pace';
+import {AuthService} from "./services/auth.service";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
-  title = 'app';
+export class AppComponent implements OnInit {
+    title = 'app';
 
-  ngOnInit(): void {
-    pace.start({
-        document: false
-    });
-  }
+    constructor(private authService: AuthService) {
+
+    }
+
+    ngOnInit(): void {
+        pace.start({
+            document: false
+        });
+    }
+
+    canShowNavbar(){
+        return this.authService.isAuth();
+    }
 }

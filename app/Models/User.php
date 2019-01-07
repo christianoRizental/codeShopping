@@ -10,7 +10,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable, SoftDeletes;
-    
+
     protected $dates = ['deleted_at'];
 
     /**
@@ -19,8 +19,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 
-        'email', 
+        'name',
+        'email',
         'password',
     ];
 
@@ -30,32 +30,33 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 
+        'password',
         'remember_token',
     ];
-    
+
     public function fill(array $attributes)
     {
         !isset($attributes['password']) ?: $attributes['password'] = bcrypt($attributes['password']);
         return parent::fill($attributes);
     }
-    
+
     /**
      *  Get the identifier that will be stored in the subject claim of the JWT.
-     * 
-     *  @return mixed
+     *
+     * @return mixed
      */
-    public function getJWTIdentifier() 
+    public function getJWTIdentifier()
     {
         return $this->id;
     }
 
     /**
      *  Return a key value arry, containing any custom claims to be added to the JWT
-     * 
-     *  @return array
+     *
+     * @return array
      */
-    public function getJWTCustomClaims(){
+    public function getJWTCustomClaims()
+    {
         return [
             'email' => $this->email,
             'name' => $this->name
