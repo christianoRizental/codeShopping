@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {LoginComponent} from './components/pages/login/login.component';
 import {CategoryListComponent} from './components/pages/category/category-list/category-list.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AlertErrorComponent} from './components/bootstrap/alert-error/alert-error.component';
 import { ModalComponent } from './components/bootstrap/modal/modal.component';
@@ -30,6 +30,12 @@ import {RefreshTokenInterceptorService} from "./services/refresh-token-intercept
 import {AppRoutingModule} from "./app-routing.module";
 import { SortColumnComponent } from './components/common/sort-column/sort-column.component';
 import { CategorySearchFormComponent } from './components/pages/category/category-search-form/category-search-form.component';
+import { CategoryFormComponent } from './components/pages/category/category-form/category-form.component';
+import { ProductFormComponent } from './components/pages/product/product-form/product-form.component';
+import { FieldErrorComponent } from './components/bootstrap/field-error/field-error.component';
+import { IsInvalidDirective } from './directives/is-invalid.directive';
+import { ListErrorComponent } from './components/bootstrap/list-error/list-error.component';
+import { CardErrorComponent } from './components/bootstrap/card-error/card-error.component';
 
 function jwtFactory(authService: AuthService) {
     return {
@@ -65,11 +71,18 @@ function jwtFactory(authService: AuthService) {
     ProductCategoryNewComponent,
     NavbarComponent,
     SortColumnComponent,
-    CategorySearchFormComponent
+    CategorySearchFormComponent,
+    CategoryFormComponent,
+    ProductFormComponent,
+    FieldErrorComponent,
+    IsInvalidDirective,
+    ListErrorComponent,
+    CardErrorComponent
   ],
   imports: [
       BrowserModule,
       FormsModule,
+      ReactiveFormsModule,
       HttpClientModule,
       AppRoutingModule,
       NgxPaginationModule,

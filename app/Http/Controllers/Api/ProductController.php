@@ -40,7 +40,7 @@ class ProductController extends Controller
         $product->fill($request->all());
         $product->save();
         
-        return new ProductResource($products);
+        return new ProductResource($product);
         //return response([], 204);
     }
 
